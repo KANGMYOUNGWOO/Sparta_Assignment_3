@@ -15,7 +15,11 @@ APlayerPawn::APlayerPawn()
     RootComponent = CapsuleComp;
 
     CapsuleComp->SetSimulatePhysics(false);
-
+    CapsuleComp->SetCollisionResponseToChannel(
+        ECC_WorldDynamic,
+        ECR_Overlap);
+    
+    
     MeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeshComp"));
     MeshComp->SetupAttachment(RootComponent);
     MeshComp->SetSimulatePhysics(false);

@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "MovingObstacle.generated.h"
 
+class AEduGameMode;
+class UBoxComponent;
+
 UCLASS()
 class SPARTA_EDUCATION1_API AMovingObstacle : public APawn
 {
@@ -23,6 +26,11 @@ protected:
 
 	int32 MoveDirection = 1;
 
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UBoxComponent> CollisionBox;
+
+	UPROPERTY()
+	AEduGameMode* GameMode; 
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
@@ -33,6 +41,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
 	float MaxRange = 500.0f;
+	
+	void SetGameMode(AEduGameMode* gameMode);
 	
 public:	
 	// Called every frame
@@ -45,4 +55,15 @@ protected:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+	void OnOverlapBegin(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult
+	);
+	
+	
 };
